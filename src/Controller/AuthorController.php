@@ -32,7 +32,7 @@ class AuthorController extends BaseController
     {
         $forRender = parent::renderDefault();
         $forRender['title'] = 'Authors';
-        $forRender['authors'] = $this->AuthorRepository->getAll();
+        $forRender['authors'] = $this->AuthorRepository->getAll();        //список авторов
         return $this->render('author/index.html.twig', $forRender);
     }
 
