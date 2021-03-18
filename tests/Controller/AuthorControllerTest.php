@@ -29,7 +29,7 @@ class AuthorControllerTest extends TestController
         $this->assertSelectorExists('td:contains("Цветаева")');
     }
 
-    public function testUpdateCategory()
+    public function testUpdateAuthor()
     {
         $client=$this->requestForResponse('GET', '/author/update/'.rand(1,10));
         $client->submitForm('Сохранить', $this->exampleAuthorUpdate());
@@ -47,6 +47,7 @@ class AuthorControllerTest extends TestController
     }
 
     public function exampleAuthorUpdate()
+
     {
         return ['author[name]' => 'Эрнест', 'author[surname]' => 'Хэмингуэй'];
     }
