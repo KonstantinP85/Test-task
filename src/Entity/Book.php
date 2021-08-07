@@ -15,33 +15,43 @@ class Book
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private ?string $title;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $year;
+    private ?int $year;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $author_id;
+    private ?int $author_id;
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
+    /**
+     * @param string $title
+     * @return $this
+     */
     public function setTitle(string $title): self
     {
         $this->title = $title;
@@ -49,11 +59,18 @@ class Book
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getYear(): ?int
     {
         return $this->year;
     }
 
+    /**
+     * @param int $year
+     * @return $this
+     */
     public function setYear(int $year): self
     {
         $this->year = $year;
@@ -61,16 +78,22 @@ class Book
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getAuthorId(): ?int
     {
         return $this->author_id;
     }
 
+    /**
+     * @param int $author_id
+     * @return $this
+     */
     public function setAuthorId(int $author_id): self
     {
         $this->author_id = $author_id;
 
         return $this;
     }
-
 }

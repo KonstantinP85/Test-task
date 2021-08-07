@@ -18,18 +18,26 @@ class AuthorRepository extends ServiceEntityRepository
     /**
      * @var EntityManagerInterface
      */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(ManagerRegistry $registry, EntityManagerInterface $entityManager)
     {
         parent::__construct($registry, Author::class);
         $this->entityManager = $entityManager;
     }
+
+    /**
+     * @return array
+     */
     public function getAll(): array
     {
         return parent::findAll();
     }
 
+    /**
+     * @param Author $author
+     * @return object
+     */
     public function setCreate(Author $author): object
     {
         $this->entityManager->persist($author);
@@ -37,16 +45,22 @@ class AuthorRepository extends ServiceEntityRepository
         return $author;
     }
 
+    /**
+     * @param Author $author
+     * @return object
+     */
     public function setUpdate(Author $author): object
     {
         $this->entityManager->flush();
         return $author;
     }
 
+    /**
+     * @param int $authorId
+     * @return object
+     */
     public function getOneAuthor(int $authorId): object
     {
         return parent::find($authorId);
     }
-
-
 }

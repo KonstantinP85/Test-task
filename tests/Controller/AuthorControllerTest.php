@@ -1,9 +1,6 @@
 <?php
 
-
 namespace App\Tests\Controller;
-
-
 
 use Symfony\Component\HttpFoundation\Response;
 
@@ -41,12 +38,18 @@ class AuthorControllerTest extends TestController
         $this->assertSelectorExists('td:contains("Хэмингуэй")');
     }
 
-    public function exampleAuthorCreate()
+    /**
+     * @return string[]
+     */
+    public function exampleAuthorCreate(): array
     {
         return ['author[name]' => 'Марина', 'author[surname]' => 'Цветаева'];
     }
 
-    public function exampleAuthorUpdate()
+    /**
+     * @return string[]
+     */
+    public function exampleAuthorUpdate(): array
 
     {
         return ['author[name]' => 'Эрнест', 'author[surname]' => 'Хэмингуэй'];

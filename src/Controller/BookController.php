@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Controller;
-
 
 use App\Entity\Author;
 use App\Entity\Book;
@@ -16,10 +14,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class BookController extends BaseController
 {
     /**
-     * @var $BookRepository
+     * @var BookRepository $BookRepository
      */
-    private $BookRepository;
+    private BookRepository $BookRepository;
 
+    /**
+     * @param BookRepository $BookRepository
+     */
     public function __construct(BookRepository $BookRepository)
     {
         $this->BookRepository = $BookRepository;
@@ -30,12 +31,13 @@ class BookController extends BaseController
      * @param int $id
      * @return Response
      */
-    public function showBooks(int $id)
+    public function showBooks(int $id): Response
     {
         $forRender = parent::renderDefault();
         $forRender['title'] = 'Books';
         $forRender['books'] = $this->BookRepository->getAll($id);                                                   //список книг автора
         $forRender['author'] = $this->getDoctrine()->getRepository(Author::class)->getOneAuthor($id);  //данные автора
+
         return $this->render('book/index.html.twig', $forRender);
     }
 
@@ -49,17 +51,18 @@ class BookController extends BaseController
     {
         $book = new Book();
         $form = $this->createForm(BookType::class, $book);
-        $form->handleRequest($request);                                 //получаем данные из формы
+        $form->handleRequest($request);
 
-        if (($form->isSubmitted()) && ($form->isValid()))               //проверяем данные из формы
-        {
+        if (($form->isSubmitted()) && ($form->isValid())) {
             $this->BookRepository->setCreate($book, $id);
             $this->addFlash('success', 'Книга добавлена!');
+
             return $this->redirectToRoute('books', array('id' => $id));
         }
         $forRender = parent::renderDefault();
         $forRender['title'] = 'Book create';
-        $forRender['form'] = $form->createView();                       //для создания вида формы
+        $forRender['form'] = $form->createView();
+
         return $this->render('book/form.html.twig', $forRender);
     }
 
@@ -79,11 +82,13 @@ class BookController extends BaseController
         if (($form->isSubmitted()) && ($form->isValid())) {
             $this->BookRepository->setUpdate($book);;
             $this->addFlash('success', 'Книга обновлена');
+
             return $this->redirectToRoute('books', array('id' => $id));
         }
         $forRender = parent::renderDefault();
         $forRender['title'] = 'Book update';
         $forRender['form'] = $form->createView();
+
         return $this->render('book/form.html.twig', $forRender);
     }
 
@@ -94,11 +99,12 @@ class BookController extends BaseController
      * @param Request $request
      * @return RedirectResponse
      */
-    public function deleteBook(int $id, int $book_id, Request $request)
+    public function deleteBook(int $id, int $book_id, Request $request): RedirectResponse
     {
         $book = $this->BookRepository->getOneBook($book_id);
         $this->BookRepository->setDeleteBook($book);
         $this->addFlash('success', 'Книга удалена!');
+
         return $this->redirectToRoute('books', array('id' => $id));
     }
 

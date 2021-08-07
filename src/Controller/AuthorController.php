@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Controller;
-
 
 use App\Entity\Author;
 use App\Form\AuthorType;
@@ -15,10 +13,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class AuthorController extends BaseController
 {
     /**
-     * @var $AuthorRepository
+     * @var AuthorRepository $AuthorRepository
      */
-    private $AuthorRepository;
+    private AuthorRepository $AuthorRepository;
 
+    /**
+     * @param AuthorRepository $AuthorRepository
+     */
     public function __construct(AuthorRepository $AuthorRepository)
     {
         $this->AuthorRepository = $AuthorRepository;
@@ -28,11 +29,12 @@ class AuthorController extends BaseController
      * @Route("/", name="authors")
      * @return Response
      */
-    public function showAuthors()
+    public function showAuthors(): Response
     {
         $forRender = parent::renderDefault();
         $forRender['title'] = 'Authors';
-        $forRender['authors'] = $this->AuthorRepository->getAll();        //список авторов
+        $forRender['authors'] = $this->AuthorRepository->getAll();
+
         return $this->render('author/index.html.twig', $forRender);
     }
 
@@ -45,17 +47,18 @@ class AuthorController extends BaseController
     {
         $author = new Author();
         $form = $this->createForm(AuthorType::class, $author);
-        $form->handleRequest($request);                                 //получаем данные из формы
+        $form->handleRequest($request);
 
-        if (($form->isSubmitted()) && ($form->isValid()))               //проверяем данные из формы
-        {
+        if (($form->isSubmitted()) && ($form->isValid())) {
             $this->AuthorRepository->setCreate($author);
             $this->addFlash('success', 'Автор добавлен!');
+
             return $this->redirectToRoute('authors');
         }
         $forRender = parent::renderDefault();
         $forRender['title'] = 'Author create';
-        $forRender['form'] = $form->createView();                       //для создания вида формы
+        $forRender['form'] = $form->createView();
+
         return $this->render('author/form.html.twig', $forRender);
     }
 
@@ -67,12 +70,11 @@ class AuthorController extends BaseController
      */
     public function updateAuthor(int $id, Request $request)
     {
-        $author = $this->AuthorRepository->getOneAuthor($id);           //получаем данные автора по id
+        $author = $this->AuthorRepository->getOneAuthor($id);
         $form = $this->createForm(AuthorType::class, $author);
         $form->handleRequest($request);
 
-        if (($form->isSubmitted()) && ($form->isValid()))
-        {
+        if (($form->isSubmitted()) && ($form->isValid())) {
             $this->AuthorRepository->setUpdate($author);
             $this->addFlash('success', 'Данные изменены!');
             return $this->redirectToRoute('authors');
@@ -80,10 +82,7 @@ class AuthorController extends BaseController
         $forRender = parent::renderDefault();
         $forRender['title'] = 'Author update';
         $forRender['form'] = $form->createView();
+
         return $this->render('author/form.html.twig', $forRender);
     }
-
-
-
-
 }

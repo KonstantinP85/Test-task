@@ -1,9 +1,6 @@
 <?php
 
-
 namespace App\Tests\Controller;
-
-
 
 use Symfony\Component\HttpFoundation\Response;
 
@@ -43,12 +40,18 @@ class BookControllerTest extends TestController
         $this->assertSelectorExists('td:contains("1810")');
     }
 
-    public function exampleBookCreate()
+    /**
+     * @return string[]
+     */
+    public function exampleBookCreate(): array
     {
         return ['book[title]' => 'Аленький цветочек', 'book[year]' => '1850'];
     }
 
-    public function exampleBookUpdate()
+    /**
+     * @return string[]
+     */
+    public function exampleBookUpdate(): array
     {
         return ['book[title]' => 'Мертвые души', 'book[year]' => '1810'];
     }
